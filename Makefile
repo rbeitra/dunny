@@ -1,7 +1,9 @@
 default: run
 
+COMPILER = $(if ${FSC_BROKEN},scalac,fsc)
+
 dunny: Dunny.scala
-	@fsc $^
+	@${COMPILER} $^
 
 raw:
 	@scala -classpath . org.chilon.dunny.Dunny
