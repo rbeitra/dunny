@@ -1,7 +1,7 @@
 default: run
 
 dunny: Dunny.scala
-	fsc $^
+	scalac $^
 
 raw:
 	@scala -classpath . org.chilon.dunny.Dunny
