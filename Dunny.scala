@@ -21,7 +21,7 @@ class Phasor(f: Source) extends Source{
     var phase = 0d
     override def step(time: Float): Float = {
         phase = (phase + frequency.step(time)*time)
-        return phase.toFloat
+        phase.toFloat
     }
 }
 class SlowingPhasor(f: Source) extends Source{
@@ -29,7 +29,7 @@ class SlowingPhasor(f: Source) extends Source{
     var phase = 0f
     override def step(time: Float): Float = {
         phase = (phase + frequency.step(time)*time)
-        return phase.toFloat
+        phase.toFloat
     }
 }
 class Saw(p: Source) extends Source{
@@ -39,40 +39,40 @@ class Saw(p: Source) extends Source{
 class Sin(p: Source) extends Source{
     var phase = p
     override def step(time: Float): Float = {
-        return Math.sin(phase.step(time)*2*Math.Pi).toFloat
+        Math.sin(phase.step(time)*2*Math.Pi).toFloat
     }
 }
 class Sqr(p: Source) extends Source{
     var phase = p
     override def step(time: Float): Float = {
-        return if(phase.step(time)%1<0.5) -1 else 1
+        if(phase.step(time)%1<0.5) -1 else 1
     }
 }
 class Add(a:Source, b:Source) extends Source{
     var sourcea = a
     var sourceb = b
     override def step(time: Float): Float = {
-        return sourcea.step(time) + sourceb.step(time)
+        sourcea.step(time) + sourceb.step(time)
     }
 }
 class Mul(a:Source, b:Source) extends Source{
     var sourcea = a
     var sourceb = b
     override def step(time: Float): Float = {
-        return sourcea.step(time) * sourceb.step(time)
+        sourcea.step(time) * sourceb.step(time)
     }
 }
 class Chromatic(s:Source) extends Source{
     var source = s
     override def step(time: Float): Float = {
-        return Math.pow(2, (source.step(time)/12)+7).toFloat
+        Math.pow(2, (source.step(time)/12)+7).toFloat
     }
 }
 class Sequencer(p: Source, s: Sequence) extends Source{
     var phase = p
     var sequence = s
     override def step(time: Float): Float = {
-        return sequence.discrete(phase.step(time))
+        sequence.discrete(phase.step(time))
     }
 }
 
@@ -81,7 +81,7 @@ class Sample (b: Float){
     val bitrate = b
     def increment: Float = {
         time+=1/bitrate
-        return time
+        time
     }
 }
 class Sequence(s: Array[Float], r: Float){
@@ -95,7 +95,7 @@ class Sequence(s: Array[Float], r: Float){
         var next = sequence((time*rate + 1).toInt % sequence.length)
         var ratio = (time * rate) % 1
 
-        return (position*(1-ratio) + next*ratio)
+        (position*(1-ratio) + next*ratio)
     }
 }
 
@@ -113,22 +113,8 @@ object Dunny {
         var prev = 0f
         
         var output =
-            sqrwave(
-                chromatic(
-                    add(
-                        seq(key),
-                        seq(notes)
-                    )
-                )
-            ) +
-            sawwave(
-                chromatic(
-                    add(
-                        seq(key),
-                        seq(notes2)
-                    )
-                ) * 2
-            )
+            sqrwave(chromatic(seq(key) + seq(notes))) +
+            sawwave(chromatic(seq(key) + seq(notes2)) * 2)
 
         while (s.increment < LENGTH) {
             var mix = 0f
@@ -139,12 +125,12 @@ object Dunny {
         }
     }
        
-    def const(v: Float): Source = return new Constant(v);
-    def sawwave(freq: Source): Source = return new Saw(new Phasor(freq))
-    def sqrwave(freq: Source): Source = return new Sqr(new Phasor(freq))
-    def sinwave(freq: Source): Source = return new Sin(new Phasor(freq))
-    def add(a: Source, b: Source): Source = return new Add(a, b);
-    def chromatic(pitch: Source): Source = return new Chromatic(pitch);
-    def noteseq(notes: Sequence): Source = return chromatic(new Sequencer(new Phasor(new Constant(1)), notes))
-    def seq(notes: Sequence): Source = return new Sequencer(new Phasor(new Constant(1)), notes)
+    def const(v: Float): Source = new Constant(v);
+    def sawwave(freq: Source): Source = new Saw(new Phasor(freq))
+    def sqrwave(freq: Source): Source = new Sqr(new Phasor(freq))
+    def sinwave(freq: Source): Source = new Sin(new Phasor(freq))
+    def add(a: Source, b: Source): Source = new Add(a, b);
+    def chromatic(pitch: Source): Source = new Chromatic(pitch);
+    def noteseq(notes: Sequence): Source = chromatic(new Sequencer(new Phasor(new Constant(1)), notes))
+    def seq(notes: Sequence): Source = new Sequencer(new Phasor(new Constant(1)), notes)
 }
