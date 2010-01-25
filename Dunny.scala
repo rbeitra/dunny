@@ -1,4 +1,4 @@
-// vim:smarttab:ts=4 sw=4
+// vim:smarttab:expandtab:ts=4 sw=4
 package org.chilon.dunny
 
 import java.io.DataOutputStream
