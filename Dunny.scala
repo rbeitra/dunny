@@ -18,10 +18,10 @@ class Constant(v: Float) extends Source{
 }
 class Phasor(f: Source) extends Source{
     var frequency = f
-    var phase: Float = 0
+    var phase: Double = 0
     override def step(time: Float): Float = {
         phase = (phase + frequency.step(time)*time)
-        return phase
+        return phase.toFloat
     }
 }
 class Saw(p: Source) extends Source{
@@ -76,7 +76,7 @@ class Sample (b: Float){
         return time
     }
 }
-class Sequence(s: Array[Float], r: Double){
+class Sequence(s: Array[Float], r: Float){
     val sequence = s
     val rate = r
 
@@ -87,7 +87,7 @@ class Sequence(s: Array[Float], r: Double){
         var next = sequence((time*rate + 1).toInt % sequence.length)
         var ratio = (time * rate) % 1
 
-        return (position*(1-ratio) + next*ratio).toFloat
+        return (position*(1-ratio) + next*ratio)
     }
 }
 
@@ -101,7 +101,7 @@ object Dunny {
         var notes = new Sequence(Array(0, 5, 7, 5, 0, 0, 7, 12, 19), 4)
         var notes2 = new Sequence(Array(0, 7, 12, 0), 1)
         var notes3 = new Sequence(Array(0, 12, 19, 0, 7), 2)
-        var key = new Sequence(Array(0, 3, -2, 1), 0.25)
+        var key = new Sequence(Array(0, 3, -2, 1), 0.25f)
         var prev = 0f
         
         var output =
