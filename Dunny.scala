@@ -9,7 +9,7 @@ class Source {
     def +(s: Source) = new Add(this, s)
     def +(s: Double) = new Add(this, new Constant(s))
 
-    def *(s: Source) = new Mul(this, new Constant(s))
+    def *(s: Source) = new Mul(this, s)
     def *(s: Double) = new Mul(this, new Constant(s))
 }
 class Constant(v: Double) extends Source{
