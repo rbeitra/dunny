@@ -36,6 +36,9 @@ class Saw(p: Source) extends Source{
     var phase = p
     override def step(time: Float): Float = (phase.step(time)%1)*2-1
 }
+class Random() extends Source{
+    override def step(time: Float): Float = Math.random.toFloat*2 - 1;
+}
 class Sin(p: Source) extends Source{
     var phase = p
     override def step(time: Float): Float = {
@@ -75,7 +78,13 @@ class Sequencer(p: Source, s: Sequence) extends Source{
         sequence.discrete(phase.step(time))
     }
 }
-
+class LinearSequencer(p: Source, s: Sequence) extends Source{
+    var phase = p
+    var sequence = s
+    override def step(time: Float): Float = {
+        sequence.linear(phase.step(time))
+    }
+}
 class Sample (b: Float){
     var time: Float = 0
     val bitrate = b
@@ -108,13 +117,18 @@ object Dunny {
         var s = new Sample(BITRATE)
         var notes = new Sequence(Array(0, 5, 7, 5, 0, 0, 7, 12, 19), 4)
         var notes2 = new Sequence(Array(0, 7, 12, 0), 1)
-        var notes3 = new Sequence(Array(0, 12, 19, 0, 7), 2)
+        var notes3 = new Sequence(Array(0, 0, 12, 12, 19, 19, 0, 0, 7, 7), 4)
         var key = new Sequence(Array(0, 3, -2, 1), 0.25f)
         var prev = 0f
-        
+       
+        var thereminseq: LinearSequencer = linseq(notes3);
         var output =
+            random()*(sawwave(const(0.25f))*(-0.5f) + 0.5f) + 
             sqrwave(chromatic(seq(key) + seq(notes))) +
-            sawwave(chromatic(seq(key) + seq(notes2)) * 2)
+            sawwave(chromatic(seq(key) + seq(notes2)) * 2) +
+            sqrwave(chromatic(seq(key) + thereminseq) * (sinwave(const(5.13127f))*0.1f+3))*0.4f +
+            sqrwave(chromatic(seq(key) + linseq(notes3)) * (sinwave(const(5.43f))*0.1f+3))*0.2f
+        thereminseq.phase.asInstanceOf[Phasor].phase = 0.3//get one of them to change notes slightly sooner
 
         while (s.increment < LENGTH) {
             var mix = 0f
@@ -126,6 +140,7 @@ object Dunny {
     }
        
     def const(v: Float): Source = new Constant(v);
+    def random(): Source = new Random()
     def sawwave(freq: Source): Source = new Saw(new Phasor(freq))
     def sqrwave(freq: Source): Source = new Sqr(new Phasor(freq))
     def sinwave(freq: Source): Source = new Sin(new Phasor(freq))
@@ -133,4 +148,5 @@ object Dunny {
     def chromatic(pitch: Source): Source = new Chromatic(pitch);
     def noteseq(notes: Sequence): Source = chromatic(new Sequencer(new Phasor(new Constant(1)), notes))
     def seq(notes: Sequence): Source = new Sequencer(new Phasor(new Constant(1)), notes)
+    def linseq(notes: Sequence): LinearSequencer = new LinearSequencer(new Phasor(new Constant(1)), notes)
 }
