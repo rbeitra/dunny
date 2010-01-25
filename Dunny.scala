@@ -18,7 +18,15 @@ class Constant(v: Float) extends Source{
 }
 class Phasor(f: Source) extends Source{
     var frequency = f
-    var phase: Double = 0
+    var phase = 0d
+    override def step(time: Float): Float = {
+        phase = (phase + frequency.step(time)*time)
+        return phase.toFloat
+    }
+}
+class SlowingPhasor(f: Source) extends Source{
+    var frequency = f
+    var phase = 0f
     override def step(time: Float): Float = {
         phase = (phase + frequency.step(time)*time)
         return phase.toFloat
