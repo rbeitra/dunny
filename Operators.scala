@@ -1,8 +1,6 @@
 package org.chilon.dunny
 
-class Add(a:Source, b:Source) extends Source {
-    var sourcea = a
-    var sourceb = b
+class Add(var sourcea:Source, var sourceb:Source) extends Source {
     override def step(time: Float): Float = {
         sourcea.step(time) + sourceb.step(time)
     }
@@ -12,9 +10,7 @@ object Add {
     def apply(a: Source, b: Source) = new Add(a, b)
 }
 
-class Subtract(a:Source, b:Source) extends Source {
-    var sourcea = a
-    var sourceb = b
+class Subtract(var sourcea:Source, var sourceb:Source) extends Source {
     override def step(time: Float): Float = {
         sourcea.step(time) - sourceb.step(time)
     }
@@ -24,20 +20,15 @@ object Subtract {
     def apply(a: Source, b: Source) = new Subtract(a, b)
 }
 
-class Multiply(a:Source, b:Source) extends Source {
-    var sourcea = a
-    var sourceb = b
+class Multiply(var sourcea:Source, var sourceb:Source) extends Source {
     override def step(time: Float): Float = {
         sourcea.step(time) * sourceb.step(time)
     }
 }
 
-class MultiplyWithLength(a:SourceWithLength, b:Source)
-    extends SourceWithLength(a.length)
+class MultiplyWithLength(var sourcea:SourceWithLength, var sourceb:Source)
+    extends SourceWithLength(sourcea.length)
 {
-    var sourcea = a
-    var sourceb = b
-
     override def step(time: Float): Float = {
         idx += time
         sourcea.step(time) * sourceb.step(time)
@@ -49,9 +40,7 @@ object Multiply {
     def apply(a:SourceWithLength, b:Source) = new MultiplyWithLength(a, b)
 }
 
-class Divide(a:Source, b:Source) extends Source {
-    var sourcea = a
-    var sourceb = b
+class Divide(var sourcea:Source, var sourceb:Source) extends Source {
     override def step(time: Float): Float = {
         sourcea.step(time) / sourceb.step(time)
     }

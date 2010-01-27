@@ -6,11 +6,9 @@ import java.lang.Process
 import java.io.DataInputStream
 import java.io.File
 
-class AudioFile(p: String, b:Int) {
-    val path = p
-    val bitRate = b
+class AudioFile(val path: String, val bitRate:Int) {
 
-    if (! new File(p).exists()) throw new Error("sample file does not exist, have you run `make get_resources'?")
+    if (! new File(path).exists()) throw new Error("sample file does not exist, have you run `make get_resources'?")
 
     // open a pipe to sox sample.mp3 -t raw -r 44100 -b 32 -e float
     // output.raw and pass it to AudioFileClip
@@ -44,9 +42,7 @@ object AudioFile {
     def apply(p: String, b:Int) = new AudioFile(p, b)
 }
 
-class AudioFileClip(d:Array[Float], b:Int, l:Float) extends SourceWithLength(l) {
-    val data = d
-    val bitRate = b
+class AudioFileClip(val data:Array[Float], val bitRate:Int, l:Float) extends SourceWithLength(l) {
 
     override def step(time: Float): Float = {
         idx += time

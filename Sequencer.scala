@@ -1,8 +1,6 @@
 package org.chilon.dunny
 
-class Sequencer(p: Source, s: Sequence) extends Source {
-    var phase = p
-    var sequence = s
+class Sequencer(var phase: Source, var sequence: Sequence) extends Source {
     override def step(time: Float): Float = {
         sequence.discrete(phase.step(time))
     }
@@ -12,9 +10,9 @@ object Sequencer {
     def apply(p: Source, s: Sequence) = new Sequencer(p, s)
 }
 
-class LinearSequencer(p: Source, s: Sequence) extends Source {
-    var phase = p
-    var sequence = s
+class LinearSequencer(var phase: Source, var sequence: Sequence)
+    extends Source
+{
     override def step(time: Float): Float = {
         sequence.linear(phase.step(time))
     }

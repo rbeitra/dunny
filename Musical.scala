@@ -60,9 +60,8 @@ object Silence {
     def apply(l: Float) = new SourceWithLengthAdaptor[Silence](new Silence, l)
 }
 
-class SpeedWithLength(s:SourceWithLength, f:Float) extends SourceWithLength(s.length / f) {
+class SpeedWithLength(s:SourceWithLength, val factor:Float) extends SourceWithLength(s.length / factor) {
     var source = s
-    val factor = f
 
     override def reset() {
         super.reset

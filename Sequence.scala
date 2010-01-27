@@ -1,9 +1,6 @@
 package org.chilon.dunny
 
-class Sequence(s: Array[Float], r: Float) {
-    val sequence = s
-    val rate = r
-
+class Sequence(val sequence: Array[Float], val rate: Float) {
     def discrete(time: Float) = sequence((time*rate).toInt%sequence.length)
 
     def linear(time: Float): Float = {
