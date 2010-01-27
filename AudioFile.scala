@@ -26,13 +26,14 @@ class AudioFile(p: String, b:Int) {
 
         try {
             for (i <- 0 to nSamples - 1) {
-                // TODO: exception handling
                 data(i) = stream.readFloat()
             }
         }
         catch {
             // the file isn't long enough, the end will be silence
-            case e:java.io.EOFException => {}
+            case e:java.io.EOFException => {
+                System.err.println("audio file " + path + " did not contain enough data of provided length at provided offset")
+            }
         }
 
         new AudioFileClip(data, bitRate, length)
