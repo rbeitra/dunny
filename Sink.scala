@@ -3,7 +3,7 @@ package org.chilon.dunny
 import java.io.DataOutputStream
 import java.io.OutputStream
 
-class Sample(bitRate: Float) {
+class Sink(bitRate: Float) {
     var time: Float = 0
     val sampleLength = 1/bitRate
 
@@ -33,8 +33,8 @@ class Sample(bitRate: Float) {
 
 }
 
-object Sample {
-    def apply(b: Float) = new Sample (b)
+object Sink {
+    def apply(b: Float) = new Sink(b)
 }
 
 // vim:smarttab:expandtab:ts=4 sw=4

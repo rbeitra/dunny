@@ -10,7 +10,7 @@ object Dunny {
     var secondsInAnIteration = secondsInABar * 2
 
     def main(args: Array[String]) {
-        var sample = Sample(BITRATE.toFloat)
+        var sink = Sink(BITRATE.toFloat)
         var notes = Sequence(Array(0, 5, 7, 5, 0, 0, 7, 12, 19), 4)
         var notes2 = Sequence(Array(0, 7, 12, 0), 1)
         var notes3 = Sequence(Array(0, 0, 12, 12, 19, 19, 0, 0, 7, 7), 4)
@@ -48,7 +48,7 @@ object Dunny {
         System.err.println("dunny " + VERSION_STRING)
         System.err.println("This music is " + music.length.toString + " seconds long, please enjoy it whilst relaxing.")
 
-        sample.output(System.out, Multiply(music, Constant(0.17f)))
+        sink.output(System.out, Multiply(music, Constant(0.17f)))
         Console.out.close()
     }
 
