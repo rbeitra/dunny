@@ -19,9 +19,11 @@ class Source {
 }
 
 class SourceWithLengthAdaptor[T<:Source](s:T, l:Float) extends SourceWithLength(l) {
+    var source = s
+
     override def step(time: Float): Float = {
         idx += time
-        super.step(time)
+        s.step(time)
     }
 }
 
@@ -31,6 +33,7 @@ class SourceWithLength(l:Float)  extends Source {
 
     def reset:Unit = { idx = 0f }
     def ++(s: SourceWithLength) = Following(this, s)
+    def **(f: Float) = Speed(this, f)
 }
 
 class Following(a:SourceWithLength, b:SourceWithLength)

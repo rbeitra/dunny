@@ -5,7 +5,10 @@ import java.io.DataOutputStream
 object Dunny {
     val BITRATE = 44100
     val SAMPLELENGTH = 1/BITRATE.toFloat
-    val LENGTH = 256f
+    var secondsInABar = 21f
+    val nBars = 4
+
+    val LENGTH = nBars * secondsInABar
     def main(args: Array[String]) {
         var output = new DataOutputStream(System.out)
         var sample = Sample(BITRATE.toFloat)
@@ -19,8 +22,13 @@ object Dunny {
 
         var file1 = AudioFile("sample1.mp3", BITRATE)
 
-        var music =
-            ((Speed(file1.clip(1.15f, 3.2f), 0.8f) ++ Silence(4.0f))) * 19f +
+        // ** means change speed factor by rhs
+        // ++ means temporal adjoinment of lhs and rhs, only works on types
+        //          that have an inherent length. A length can be given to a
+        //          type by calling "length" on that type to give it a length.
+        //          Silence(3.0f) == Silence() length 3.0f
+        var intro =
+            ((file1.clip(3.8f, 4.0f) ** 0.8f) ++ Silence(3f)) * 19f +
             Random() *((sawwave(Constant(0.25f)) / 2f) + 0.5f) +
             // sqrwave(Chromatic(seq(key) + linseq(bass))) +
             sqrwave(Chromatic(seq(key) + linseq(crash)) * (Random() / 3)) +
@@ -28,7 +36,14 @@ object Dunny {
             sawwave(Chromatic(seq(key) + seq(notes2)) * 2) +
             sqrwave(Chromatic(seq(key) + thereminseq) * (sinwave(Constant(5.13127f))*0.1f+3))*0.4f +
             sqrwave(Chromatic(seq(key) + linseq(notes3)) * (sinwave(Constant(5.43f))*0.1f+3))*0.2f
+
         thereminseq.phase.asInstanceOf[Phasor].phase = 0.3//get one of them to change notes slightly sooner
+
+        var music =
+            (intro length secondsInABar) ++
+            ((intro length (secondsInABar / 1.2f)) ** 1.2f) ++
+            ((intro length (secondsInABar / 1.4f)) ** 1.4f) ++
+            ((intro length (secondsInABar / 1.6f)) ** 1.6f)
 
         val CACHE_LENGTH = 1
         while (sample.increment < LENGTH) {
