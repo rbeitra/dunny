@@ -44,4 +44,19 @@ object Chromatic {
     def apply(f: Source) = new Chromatic(f)
 }
 
+class Constant(v: Float) extends Source{
+    var value = v
+    override def step(time: Float) = value
+}
+
+object Constant {
+    def apply(v: Float) = new Constant(v)
+}
+
+class Silence extends Constant(0)
+
+object Silence {
+    def apply = new Silence
+}
+
 // vim:smarttab:expandtab:ts=4 sw=4

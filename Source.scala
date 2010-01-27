@@ -16,8 +16,36 @@ class Source {
     def /(s: Float) = Divide(this, Constant(s))
 }
 
-class SourceWithLength(l:Int)  extends Source {
+class SourceWithLength(l:Float)  extends Source {
     val length = l
+    var idx = 0f
+
+    def <<(s: SourceWithLength) = Following(this, s)
+}
+
+class Following(a:SourceWithLength, b:SourceWithLength)
+    extends SourceWithLength(a.length + b.length)
+{
+    var first = a
+    var second = b
+    var current = first
+
+    override def step(time: Float): Float = {
+        if (current.idx > current.length) {
+            if (current.eq(second)) {
+                first.idx = 0
+                second.idx = 0
+                current = first
+            }
+            else current = second
+        }
+
+        current.step(time)
+    }
+}
+
+object Following {
+    def apply(a:SourceWithLength, b:SourceWithLength) = new Following(a, b)
 }
 
 // vim:smarttab:expandtab:ts=4 sw=4

@@ -28,7 +28,7 @@ class AudioFile(p: String, b:Int) {
             data(i) = stream.readFloat()
         }
 
-        new AudioFileClip(data, bitRate)
+        new AudioFileClip(data, bitRate, length)
     }
 }
 
@@ -36,14 +36,13 @@ object AudioFile {
     def apply(p: String, b:Int) = new AudioFile(p, b)
 }
 
-class AudioFileClip(d:Array[Float], b:Int) extends SourceWithLength(d.size) {
+class AudioFileClip(d:Array[Float], b:Int, l:Float) extends SourceWithLength(l) {
     val data = d
     val bitRate = b
-    var idx = 0f
 
     override def step(time: Float): Float = {
         idx += time
-        data((idx * bitRate).toInt % data.size)
+        data(((idx - time) * bitRate).toInt % data.size)
     }
 }
 
