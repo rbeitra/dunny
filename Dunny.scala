@@ -13,11 +13,13 @@ object Dunny {
         var notes2 = Sequence(Array(0, 7, 12, 0), 1)
         var notes3 = Sequence(Array(0, 0, 12, 12, 19, 19, 0, 0, 7, 7), 4)
         var bass = Sequence(Array(-12, -4), 0.125f)
+        var crash = Sequence(Array(-10, -4), 0.125f)
         var key = Sequence(Array(0, 3, -2, 1), 0.25f)
         var thereminseq = linseq(notes3);
         var music =
             Random() *((sawwave(Constant(0.25f)) / 2f) + 0.5f) +
             sqrwave(Chromatic(seq(key) + linseq(bass))) +
+            sqrwave(Chromatic(seq(key) + linseq(crash)) * (Random() / 3)) +
             sqrwave(Chromatic(seq(key) + seq(notes))) +
             sawwave(Chromatic(seq(key) + seq(notes2)) * 2) +
             sqrwave(Chromatic(seq(key) + thereminseq) * (sinwave(Constant(5.13127f))*0.1f+3))*0.4f +
