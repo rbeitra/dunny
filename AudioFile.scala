@@ -17,7 +17,7 @@ class AudioFile(p: String, b:Int) {
     def clip(offset: Float, length: Float):AudioFileClip = {
         var pb = new ProcessBuilder(
             "sox", path, "-t", "raw", "-r", bitRate.toString,
-            "-B", "-e", "float", "-b", "32", "-c", "1", "-", "trim", offset.toString)
+            "-B", "-e", "float", "-b", "32", "-c", "1", "-", "trim", offset.toString, length.toString)
 
         var process = pb.start()
         var stream = new DataInputStream(process.getInputStream())
