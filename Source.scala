@@ -6,8 +6,14 @@ class Source {
     def +(s: Source) = Add(this, s)
     def +(s: Float) = Add(this, Constant(s))
 
+    def -(s: Source) = Subtract(this, s)
+    def -(s: Float) = Subtract(this, Constant(s))
+
     def *(s: Source) = Multiply(this, s)
     def *(s: Float) = Multiply(this, Constant(s))
+
+    def /(s: Source) = Divide(this, s)
+    def /(s: Float) = Divide(this, Constant(s))
 }
 
 // vim:smarttab:expandtab:ts=4 sw=4

@@ -16,7 +16,7 @@ object Dunny {
         var key = Sequence(Array(0, 3, -2, 1), 0.25f)
         var thereminseq = linseq(notes3);
         var music =
-            Random() *((sawwave(Constant(0.25f)) * -0.5f) + 0.5f) +
+            Random() *((sawwave(Constant(0.25f)) / 2f) + 0.5f) +
             sqrwave(Chromatic(seq(key) + linseq(bass))) +
             sqrwave(Chromatic(seq(key) + seq(notes))) +
             sawwave(Chromatic(seq(key) + seq(notes2)) * 2) +
