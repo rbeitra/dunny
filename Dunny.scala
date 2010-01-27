@@ -3,12 +3,12 @@ package org.chilon.dunny
 import java.io.DataOutputStream
 
 object Dunny {
-    val BITRATE = 44100f
-    val SAMPLELENGTH = 1/BITRATE
+    val BITRATE = 44100
+    val SAMPLELENGTH = 1/BITRATE.toFloat
     val LENGTH = 256f
     def main(args: Array[String]) {
         var output = new DataOutputStream(System.out)
-        var sample = Sample(BITRATE)
+        var sample = Sample(BITRATE.toFloat)
         var notes = Sequence(Array(0, 5, 7, 5, 0, 0, 7, 12, 19), 4)
         var notes2 = Sequence(Array(0, 7, 12, 0), 1)
         var notes3 = Sequence(Array(0, 0, 12, 12, 19, 19, 0, 0, 7, 7), 4)
@@ -16,7 +16,11 @@ object Dunny {
         var crash = Sequence(Array(-10, -4), 0.125f)
         var key = Sequence(Array(0, 3, -2, 1), 0.25f)
         var thereminseq = linseq(notes3);
+
+        var file1 = AudioFile("sample1.mp3", BITRATE)
+
         var music =
+            file1.clip(0f, 18f) * 15f +
             Random() *((sawwave(Constant(0.25f)) / 2f) + 0.5f) +
             sqrwave(Chromatic(seq(key) + linseq(bass))) +
             sqrwave(Chromatic(seq(key) + linseq(crash)) * (Random() / 3)) +
