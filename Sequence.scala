@@ -27,10 +27,22 @@ class Loop(val source: Addressable, val start: Float, val end: Float) extends Ad
     override def discrete(time: Float): Float = source.discrete(start + (time - start)%length)
     override def linear(time: Float): Float = source.linear(start + (time - start)%length)
 }
+
 class Appended(val sourcea: Addressable, val sourceb: Addressable, val switchtime: Float) extends Addressable {
     override def discrete(time: Float): Float = if(time < switchtime) sourcea.discrete(time) else sourceb.discrete(time - switchtime)
     override def linear(time: Float): Float = if(time < switchtime) sourcea.linear(time) else sourceb.linear(time - switchtime)
 }
+
+class TimeShift(val source: Addressable, val offset: Float) extends Addressable {
+    override def discrete(time: Float): Float = source.discrete(time + offset);
+    override def linear(time: Float): Float = source.linear(time + offset);
+}
+
+class Reverse(val source: Addressable) extends Addressable {
+    override def discrete(time: Float): Float = source.discrete(-time);
+    override def linear(time: Float): Float = source.linear(-time);
+}
+
 
 object Sequence {
     def apply(s: Array[Float], r: Float) = new Sequence(s, r)
