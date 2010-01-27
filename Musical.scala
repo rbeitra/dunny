@@ -60,4 +60,28 @@ object Silence {
     def apply(l: Float) = new SourceWithLengthAdaptor[Silence](new Silence, l)
 }
 
+class SpeedWithLength(s:SourceWithLength, f:Float) extends SourceWithLength(s.length / f) {
+    var source = s
+    val factor = f
+
+    override def step(time: Float):Float = {
+        idx += time * factor
+        s.step(time * factor)
+    }
+}
+
+class Speed(s:Source, f:Float) extends Source {
+    var source = s
+    val factor = f
+
+    override def step(time: Float):Float = {
+        s.step(time * factor)
+    }
+}
+
+object Speed {
+    def apply(s:SourceWithLength, f:Float) = new SpeedWithLength(s, f)
+    def apply(s:Source, f:Float) = new Speed(s, f)
+}
+
 // vim:smarttab:expandtab:ts=4 sw=4

@@ -20,7 +20,7 @@ object Dunny {
         var file1 = AudioFile("sample1.mp3", BITRATE)
 
         var music =
-            ((file1.clip(1f, 2f) << (Silence() length 2))) * 19f +
+            ((Speed(file1.clip(1f, 4f), 1.3f) ++ (Silence() length 2.8f))) * 19f +
             Random() *((sawwave(Constant(0.25f)) / 2f) + 0.5f) +
             // sqrwave(Chromatic(seq(key) + linseq(bass))) +
             sqrwave(Chromatic(seq(key) + linseq(crash)) * (Random() / 3)) +
