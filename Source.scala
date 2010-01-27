@@ -18,17 +18,16 @@ class Source {
     def length(l: Float) = new SourceWithLengthAdaptor(this, l)
 }
 
-class SourceWithLengthAdaptor[T<:Source](s:T, l:Float) extends SourceWithLength(l) {
-    var source = s
-
+class SourceWithLengthAdaptor[T<:Source](var source:T, l:Float)
+    extends SourceWithLength(l)
+{
     override def step(time: Float): Float = {
         idx += time
-        s.step(time)
+        source.step(time)
     }
 }
 
-class SourceWithLength(l:Float)  extends Source {
-    val length = l
+class SourceWithLength(val length:Float)  extends Source {
     var idx = 0f
 
     def reset:Unit = { idx = 0f }
@@ -36,11 +35,9 @@ class SourceWithLength(l:Float)  extends Source {
     def **(f: Float) = Speed(this, f)
 }
 
-class Following(a:SourceWithLength, b:SourceWithLength)
-    extends SourceWithLength(a.length + b.length)
+class Following(var first:SourceWithLength, var second:SourceWithLength)
+    extends SourceWithLength(first.length + second.length)
 {
-    var first = a
-    var second = b
     var current = first
 
     override def reset() {
