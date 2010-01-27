@@ -48,7 +48,7 @@ object Dunny {
         System.err.println("dunny " + VERSION_STRING)
         System.err.println("This music is " + music.length.toString + " seconds long, please enjoy it whilst relaxing.")
 
-        sample.output(System.out, music)
+        sample.output(System.out, Multiply(music, Constant(0.17f)))
         Console.out.close()
     }
 

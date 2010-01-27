@@ -25,7 +25,7 @@ class Sample(b: Float) {
             do {
                 var mix = music.step(sampleLength)
                 // TODO: move this correction factor
-                output.writeFloat(mix * 0.17f)
+                output.writeFloat(mix)
             } while (increment < nextFlushPoint)
 
             output.flush()
