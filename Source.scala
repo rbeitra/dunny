@@ -15,7 +15,7 @@ class Source {
     def /(s: Source) = Divide(this, s)
     def /(s: Float) = Divide(this, Constant(s))
 
-    def withLength(l: Float) = new SourceWithLengthAdaptor(this, l)
+    def length(l: Float) = new SourceWithLengthAdaptor(this, l)
 }
 
 class SourceWithLengthAdaptor[T<:Source](s:T, l:Float) extends SourceWithLength(l) {
