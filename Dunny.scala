@@ -3,9 +3,9 @@ package org.chilon.dunny
 import java.io.DataOutputStream
 
 object Dunny {
-    val VERSION = "0.1"
-    val VERSION_NAME = "no regrets"
-    val VERSION_STRING = VERSION + " (" + VERSION_NAME + ") - (c) 2010: Everyone"
+    val VERSION = "0.2"
+    val VERSION_NAME = "frequence"
+    val VERSION_STRING = VERSION + " (" + VERSION_NAME + ")"
 
     val BITRATE = 44100
     val SAMPLELENGTH = 1/BITRATE.toFloat
@@ -49,7 +49,7 @@ object Dunny {
             ((intro length secondsInAnIteration) ** 1.6f) ++
             ((intro length secondsInAnIteration) ** 2.0f)
 
-        System.err.println(VERSION_STRING)
+        System.err.println("dunny " + VERSION_STRING)
         System.err.println("This music is " + music.length.toString + " seconds long, please enjoy it whilst relaxing.")
 
         val CACHE_LENGTH = 1
