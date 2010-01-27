@@ -54,8 +54,8 @@ object SongBook {
         var file1 = AudioFile("sample1.mp3", BITRATE)
         def sinwave(freq: Source) = Sin(Phasor(freq))
 
-        return (file1.clip(0f, 30f) - (
-            ((sinwave(Constant(10f)) / 2f) + 0.5f))) length 30
+        (file1.clip(0f, 60f) - (
+            ((sinwave(Constant(10f))) + 0.5f))) length 60
     }
 
     def find(key:String):SourceWithLength = {
