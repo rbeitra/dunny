@@ -16,4 +16,8 @@ class Source {
     def /(s: Float) = Divide(this, Constant(s))
 }
 
+class SourceWithLength(l:Int)  extends Source {
+    val length = l
+}
+
 // vim:smarttab:expandtab:ts=4 sw=4
