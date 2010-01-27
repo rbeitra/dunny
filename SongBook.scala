@@ -52,7 +52,10 @@ object SongBook {
 
     def streetbeat():SourceWithLength = {
         var file1 = AudioFile("sample1.mp3", BITRATE)
-        return file1.clip(0f, 30f)
+        def sinwave(freq: Source) = Sin(Phasor(freq))
+
+        return (file1.clip(0f, 30f) - (
+            ((sinwave(Constant(10f)) / 2f) + 0.5f))) length 30
     }
 
     def find(key:String):SourceWithLength = {

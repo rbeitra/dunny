@@ -22,7 +22,7 @@ mp3: dunny
 	id3v2 -a chilon -A 'dunny sings the blues' -t "$$name" -y 2010 -g 0 -c 'This music is 58.7619 seconds long, please enjoy it whilst relaxing.' -T $${version#0.} "$$name.mp3"
 
 run: dunny
-	version=${get_version}; \
+	@version=${get_version}; \
 	scala -classpath . org.chilon.dunny.Dunny $(if ${args},${args},${get_version}) | play 2> /dev/null -t raw -r 44100 -B -b32 -e float -
 
 get_resources:
