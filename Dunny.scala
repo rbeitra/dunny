@@ -9,7 +9,7 @@ object Dunny {
 
     val BITRATE = 44100
     val SAMPLELENGTH = 1/BITRATE.toFloat
-    var secondsInABar = 7.1f
+    var secondsInABar = 8f
     var secondsInAnIteration = secondsInABar * 2
 
     def main(args: Array[String]) {
