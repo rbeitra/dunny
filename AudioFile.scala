@@ -23,9 +23,16 @@ class AudioFile(p: String, b:Int) {
         var stream = new DataInputStream(process.getInputStream())
         val nSamples = (bitRate * length).toInt
         var data:Array[Float] = new Array(nSamples)
-        for (i <- 0 to nSamples - 1) {
-            // TODO: exception handling
-            data(i) = stream.readFloat()
+
+        try {
+            for (i <- 0 to nSamples - 1) {
+                // TODO: exception handling
+                data(i) = stream.readFloat()
+            }
+        }
+        catch {
+            // the file isn't long enough, the end will be silence
+            case e:java.io.EOFException => {}
         }
 
         new AudioFileClip(data, bitRate, length)
