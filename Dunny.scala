@@ -6,6 +6,7 @@ object Dunny {
     val BITRATE = 44100
     val SAMPLELENGTH = 1/BITRATE.toFloat
     var secondsInABar = 7.1f
+    var secondsInAnIteration = secondsInABar * 4
 
     def main(args: Array[String]) {
         var output = new DataOutputStream(System.out)
@@ -38,10 +39,10 @@ object Dunny {
         thereminseq.phase.asInstanceOf[Phasor].phase = 0.3//get one of them to change notes slightly sooner
 
         var music =
-            (intro length secondsInABar) ++
-            ((intro length secondsInABar) ** 1.2f) ++
-            ((intro length secondsInABar) ** 1.4f) ++
-            ((intro length secondsInABar) ** 1.6f)
+            (intro length secondsInAnIteration) ++
+            ((intro length secondsInAnIteration) ** 1.2f) ++
+            ((intro length secondsInAnIteration) ** 1.4f) ++
+            ((intro length secondsInAnIteration) ** 1.6f)
 
         System.err.println("This music is " + music.length.toString + " seconds long, please enjoy it whilst relaxing.")
 
