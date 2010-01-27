@@ -29,6 +29,7 @@ class SourceWithLength(l:Float)  extends Source {
     val length = l
     var idx = 0f
 
+    def reset:Unit = { idx = 0f }
     def ++(s: SourceWithLength) = Following(this, s)
 }
 
@@ -42,8 +43,8 @@ class Following(a:SourceWithLength, b:SourceWithLength)
     override def step(time: Float): Float = {
         if (current.idx >= current.length) {
             if (current.eq(second)) {
-                first.idx = 0
-                second.idx = 0
+                first.reset
+                second.reset
                 current = first
             }
             else current = second

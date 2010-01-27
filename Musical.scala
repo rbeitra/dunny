@@ -64,9 +64,15 @@ class SpeedWithLength(s:SourceWithLength, f:Float) extends SourceWithLength(s.le
     var source = s
     val factor = f
 
+    override def reset() {
+        super.reset
+        s.reset
+    }
+
     override def step(time: Float):Float = {
-        idx += time * factor
-        s.step(time * factor)
+        val speedTime = time * factor
+        idx += speedTime
+        s.step(speedTime)
     }
 }
 
