@@ -5,7 +5,7 @@ default: run
 COMPILER = $(if ${FSC_BROKEN},scalac,fsc)
 
 dunny: Dunny.scala Sequence.scala Sequencer.scala Waves.scala \
-	   Operators.scala Sample.scala Musical.scala Source.scala \
+	   Operators.scala Sink.scala Musical.scala Source.scala \
 	   AudioFile.scala
 	@${COMPILER} $^
 
