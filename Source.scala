@@ -47,7 +47,6 @@ class Following(a:SourceWithLength, b:SourceWithLength)
         first.reset
         second.reset
         current = first
-        idx = 0
     }
 
     override def step(time: Float): Float = {

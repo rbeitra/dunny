@@ -70,9 +70,8 @@ class SpeedWithLength(s:SourceWithLength, f:Float) extends SourceWithLength(s.le
     }
 
     override def step(time: Float):Float = {
-        val speedTime = time * factor
-        idx += speedTime
-        s.step(speedTime)
+        idx += time
+        s.step(time * factor)
     }
 }
 
