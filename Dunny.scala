@@ -5,10 +5,8 @@ import java.io.DataOutputStream
 object Dunny {
     val BITRATE = 44100
     val SAMPLELENGTH = 1/BITRATE.toFloat
-    var secondsInABar = 21f
-    val nBars = 4
+    var secondsInABar = 7.1f
 
-    val LENGTH = nBars * secondsInABar
     def main(args: Array[String]) {
         var output = new DataOutputStream(System.out)
         var sample = Sample(BITRATE.toFloat)
@@ -41,19 +39,20 @@ object Dunny {
 
         var music =
             (intro length secondsInABar) ++
-            ((intro length (secondsInABar / 1.2f)) ** 1.2f) ++
-            ((intro length (secondsInABar / 1.4f)) ** 1.4f) ++
-            ((intro length (secondsInABar / 1.6f)) ** 1.6f)
+            ((intro length secondsInABar) ** 1.2f) ++
+            ((intro length secondsInABar) ** 1.4f) ++
+            ((intro length secondsInABar) ** 1.6f)
+
+        System.err.println("This music is " + music.length.toString + " seconds long, please enjoy it whilst relaxing.")
 
         val CACHE_LENGTH = 1
-        while (sample.increment < LENGTH) {
+        while (sample.time < music.length) {
             val nextFlushPoint =
-                if (sample.time + CACHE_LENGTH > LENGTH) LENGTH
+                if (sample.time + CACHE_LENGTH > music.length) music.length
                 else sample.time + CACHE_LENGTH
 
             do {
-                var mix = 0f
-                mix += music.step(SAMPLELENGTH)
+                var mix = music.step(SAMPLELENGTH)
                 output.writeFloat(mix*0.25f)
             } while (sample.increment < nextFlushPoint)
 

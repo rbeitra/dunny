@@ -43,13 +43,15 @@ class Following(a:SourceWithLength, b:SourceWithLength)
     var second = b
     var current = first
 
+    override def reset() {
+        first.reset
+        second.reset
+        current = first
+    }
+
     override def step(time: Float): Float = {
         if (current.idx >= current.length) {
-            if (current.eq(second)) {
-                first.reset
-                second.reset
-                current = first
-            }
+            if (current.eq(second)) reset()
             else current = second
         }
 

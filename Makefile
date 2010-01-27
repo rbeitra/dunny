@@ -16,4 +16,4 @@ run: dunny
 	@scala -classpath . org.chilon.dunny.Dunny | play 2> /dev/null -t raw -r 44100 -B -b 32 -e float -
 
 get_resources:
-	wget http://chilon.net/~james/dunny/sample1.mp3
+	wget -c http://chilon.net/~james/dunny/sample1.mp3
