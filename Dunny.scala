@@ -1,7 +1,7 @@
 package org.chilon.dunny
 
 object Dunny {
-    val VERSION = "0.2"
+    val VERSION = "0.2.1"
     val VERSION_NAME = "frequence"
     val VERSION_STRING = VERSION + " (" + VERSION_NAME + ")"
 
@@ -48,7 +48,7 @@ object Dunny {
         System.err.println("dunny " + VERSION_STRING)
         System.err.println("This music is " + music.length.toString + " seconds long, please enjoy it whilst relaxing.")
 
-        sink.output(System.out, Multiply(music, Constant(0.17f)))
+        sink.output(System.out, music * 0.17f)
         Console.out.close()
     }
 

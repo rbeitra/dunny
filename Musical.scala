@@ -26,14 +26,14 @@ object SlowingPhasor {
     def apply(s: Source) = new SlowingPhasor(s)
 }
 
-class Random() extends Source {
+class Random() extends LoopedSource {
     override def step(time: Float): Float = Math.random.toFloat*2 - 1;
 }
 object Random {
     def apply() = new Random
 }
 
-class Chromatic(s:Source) extends Source {
+class Chromatic(s:Source) extends LoopedSource {
     var source = s
     override def step(time: Float): Float = {
         Math.pow(2, (source.step(time)/12)+7).toFloat
@@ -44,7 +44,7 @@ object Chromatic {
     def apply(f: Source) = new Chromatic(f)
 }
 
-class Constant(v: Float) extends Source{
+class Constant(v: Float) extends LoopedSource {
     var value = v
     override def step(time: Float) = value
 }
@@ -60,7 +60,7 @@ object Silence {
     def apply(l: Float) = new SourceWithLengthAdaptor[Silence](new Silence, l)
 }
 
-class SpeedWithLength(s:SourceWithLength, val factor:Float) extends SourceWithLength(s.length / factor) {
+class TempoWithLength(s:SourceWithLength, val factor:Float) extends SourceWithLength(s.length / factor) {
     var source = s
 
     override def reset() {
@@ -74,7 +74,7 @@ class SpeedWithLength(s:SourceWithLength, val factor:Float) extends SourceWithLe
     }
 }
 
-class Speed(s:Source, f:Float) extends Source {
+class Tempo(s:Source, f:Float) extends LoopedSource {
     var source = s
     val factor = f
 
@@ -83,9 +83,9 @@ class Speed(s:Source, f:Float) extends Source {
     }
 }
 
-object Speed {
-    def apply(s:SourceWithLength, f:Float) = new SpeedWithLength(s, f)
-    def apply(s:Source, f:Float) = new Speed(s, f)
+object Tempo {
+    def apply(s:SourceWithLength, f:Float) = new TempoWithLength(s, f)
+    def apply(s:Source, f:Float) = new Tempo(s, f)
 }
 
 // vim:smarttab:expandtab:ts=4 sw=4

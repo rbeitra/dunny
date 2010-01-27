@@ -9,13 +9,28 @@ class Source {
     def -(s: Source) = Subtract(this, s)
     def -(s: Float) = Subtract(this, Constant(s))
 
-    def *(s: Source) = Multiply(this, s)
-    def *(s: Float) = Multiply(this, Constant(s))
-
     def /(s: Source) = Divide(this, s)
     def /(s: Float) = Divide(this, Constant(s))
 
     def length(l: Float) = new SourceWithLengthAdaptor(this, l)
+}
+
+class SourceWithLength(val length:Float) extends Source {
+    var idx = 0f
+
+    def reset:Unit = { idx = 0f }
+    def ++(s: SourceWithLength) = Following(this, s)
+    def **(f: Float) = Tempo(this, f)
+
+    def *(s: Source) = Multiply(this, s)
+    def *(s: Float) = Multiply(this, Constant(s))
+}
+
+class LoopedSource extends Source {
+    def *(s: Source) = Multiply(this, s)
+    def *(s: Float) = Multiply(this, Constant(s))
+
+    def **(f: Float) = Tempo(this, f)
 }
 
 class SourceWithLengthAdaptor[T<:Source](var source:T, l:Float)
@@ -25,14 +40,6 @@ class SourceWithLengthAdaptor[T<:Source](var source:T, l:Float)
         idx += time
         source.step(time)
     }
-}
-
-class SourceWithLength(val length:Float)  extends Source {
-    var idx = 0f
-
-    def reset:Unit = { idx = 0f }
-    def ++(s: SourceWithLength) = Following(this, s)
-    def **(f: Float) = Speed(this, f)
 }
 
 class Following(var first:SourceWithLength, var second:SourceWithLength)
