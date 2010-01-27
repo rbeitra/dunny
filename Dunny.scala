@@ -60,7 +60,7 @@ object Dunny {
 
             do {
                 var mix = music.step(SAMPLELENGTH)
-                output.writeFloat(mix*0.25f)
+                output.writeFloat(mix*0.17f)
             } while (sample.increment < nextFlushPoint)
 
             output.flush()
