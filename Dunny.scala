@@ -1,19 +1,15 @@
 package org.chilon.dunny
 
-import java.io.DataOutputStream
-
 object Dunny {
     val VERSION = "0.2"
     val VERSION_NAME = "frequence"
     val VERSION_STRING = VERSION + " (" + VERSION_NAME + ")"
 
     val BITRATE = 44100
-    val SAMPLELENGTH = 1/BITRATE.toFloat
     var secondsInABar = 8f
     var secondsInAnIteration = secondsInABar * 2
 
     def main(args: Array[String]) {
-        var output = new DataOutputStream(System.out)
         var sample = Sample(BITRATE.toFloat)
         var notes = Sequence(Array(0, 5, 7, 5, 0, 0, 7, 12, 19), 4)
         var notes2 = Sequence(Array(0, 7, 12, 0), 1)
@@ -52,20 +48,7 @@ object Dunny {
         System.err.println("dunny " + VERSION_STRING)
         System.err.println("This music is " + music.length.toString + " seconds long, please enjoy it whilst relaxing.")
 
-        val CACHE_LENGTH = 1
-        while (sample.time < music.length) {
-            val nextFlushPoint =
-                if (sample.time + CACHE_LENGTH > music.length) music.length
-                else sample.time + CACHE_LENGTH
-
-            do {
-                var mix = music.step(SAMPLELENGTH)
-                output.writeFloat(mix*0.17f)
-            } while (sample.increment < nextFlushPoint)
-
-            output.flush()
-        }
-
+        sample.output(System.out, music)
         Console.out.close()
     }
 

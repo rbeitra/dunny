@@ -32,8 +32,21 @@ class Multiply(a:Source, b:Source) extends Source {
     }
 }
 
+class MultiplyWithLength(a:SourceWithLength, b:Source)
+    extends SourceWithLength(a.length)
+{
+    var sourcea = a
+    var sourceb = b
+
+    override def step(time: Float): Float = {
+        idx += time
+        sourcea.step(time) * sourceb.step(time)
+    }
+}
+
 object Multiply {
     def apply(a:Source, b:Source) = new Multiply(a, b)
+    def apply(a:SourceWithLength, b:Source) = new MultiplyWithLength(a, b)
 }
 
 class Divide(a:Source, b:Source) extends Source {
