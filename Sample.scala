@@ -3,13 +3,12 @@ package org.chilon.dunny
 import java.io.DataOutputStream
 import java.io.OutputStream
 
-class Sample(b: Float) {
+class Sample(bitRate: Float) {
     var time: Float = 0
-    val bitrate = b
-    val sampleLength = 1/bitrate
+    val sampleLength = 1/bitRate
 
     def increment: Float = {
-        time+=1/bitrate
+        time += sampleLength
         time
     }
 
