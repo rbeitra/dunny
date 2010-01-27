@@ -56,7 +56,8 @@ object Constant {
 class Silence extends Constant(0)
 
 object Silence {
-    def apply = new Silence
+    def apply():Silence = new Silence
+    def apply(l: Float) = new SourceWithLengthAdaptor[Silence](new Silence, l)
 }
 
 // vim:smarttab:expandtab:ts=4 sw=4
