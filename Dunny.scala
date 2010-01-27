@@ -33,7 +33,7 @@ object Dunny {
         var intro =
             ((file1.clip(3.8f, 4.0f) ** 0.8f) ++ Silence(3f)) * 19f +
             Random() *((sawwave(Constant(0.25f)) / 2f) + 0.5f) +
-            // sqrwave(Chromatic(seq(key) + linseq(bass))) +
+            sqrwave(Chromatic(seq(key) + linseq(bass) + Random())) +
             sqrwave(Chromatic(seq(key) + linseq(crash)) * (Random() / 3)) +
             sqrwave(Chromatic(seq(key) + seq(notes))) +
             sawwave(Chromatic(seq(key) + seq(notes2)) * 2) +
