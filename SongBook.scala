@@ -1,5 +1,7 @@
 package org.chilon.dunny
 
+import collection.immutable.HashMap
+
 object SongBook {
     val BITRATE = 44100
 
@@ -41,11 +43,30 @@ object SongBook {
 
         thereminseq.phase.asInstanceOf[Phasor].phase = 0.3//get one of them to change notes slightly sooner
 
-        (intro length secondsInAnIteration) ++
+        ((intro length secondsInAnIteration) ++
         ((intro length secondsInAnIteration) ** 1.2f) ++
         ((intro length secondsInAnIteration) ** 1.4f) ++
         ((intro length secondsInAnIteration) ** 1.6f) ++
-        ((intro length secondsInAnIteration) ** 2.0f)
+        ((intro length secondsInAnIteration) ** 2.0f)) * 0.17f
+    }
+
+    def streetbeat():SourceWithLength = {
+        var file1 = AudioFile("sample1.mp3", BITRATE)
+        return file1.clip(0f, 30f)
+    }
+
+    def find(key:String):SourceWithLength = {
+        val lookup = HashMap[String, SourceWithLength](
+            "0.3" -> streetbeat()
+        )
+
+        return lookup.get(key).getOrElse {
+            val lastDot = key.lastIndexOf('.')
+            if (lastDot == -1)
+                frequence()
+            else
+                find(key.substring(0, lastDot))
+        }
     }
 }
 
