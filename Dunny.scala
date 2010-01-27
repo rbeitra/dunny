@@ -64,6 +64,8 @@ object Dunny {
 
             output.flush()
         }
+
+        Console.out.close()
     }
 
     def sawwave(freq: Source) = Saw(Phasor(freq))
