@@ -1,4 +1,4 @@
-.PHONY: dunny raw run get_resources mp3
+.PHONY: dunny raw run get_resources mp3 test_sample1_sox
 
 default: run
 
@@ -27,3 +27,6 @@ run: dunny
 
 get_resources:
 	wget -c http://chilon.net/~james/dunny/sample1.mp3
+
+test_sample1_sox:
+	sox sample1.mp3 -t raw -r 44100 -B -e float -b32 -c 1 - trim 0 4         | play -t raw -r 44100 -B -e float -b32 -c1 -
